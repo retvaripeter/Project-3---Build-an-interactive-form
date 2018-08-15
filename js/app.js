@@ -18,8 +18,6 @@ const checkboxes = document.querySelectorAll('.activities input');
 
 const checkBoxesParent = document.querySelector('.activities');
 
-const sConflict = document.querySelectorAll(".sconflict");
-
 const totalElement = document.querySelector('.total');
 
 let eventBusket = 0;
@@ -199,25 +197,21 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
          if (boxClicked.name === 'js-frameworks') { //if the user clicks on a checkbox with a name attribute: 'js-framworks'
 
            checkboxes[3].disabled = true; //disable the other checkbox with the same time of the event
-           sConflict[2].style.display = 'block' //display a schedule-conflict message
            checkboxes[3].parentNode.style.color = 'grey'; //set the color of the other checkbox's parent's content with the same time of the event to grey
 
        } else if (boxClicked.name === 'express') {
 
           checkboxes[1].disabled = true;
-          sConflict[0].style.display = 'block'
           checkboxes[1].parentNode.style.color = 'grey';
 
        }else if (boxClicked.name === 'js-libs') {
 
           checkboxes[4].disabled = true;
-          sConflict[3].style.display = 'block'
           checkboxes[4].parentNode.style.color = 'grey';
 
        }else if (boxClicked.name === 'node') {
 
           checkboxes[2].disabled = true;
-          sConflict[1].style.display = 'block'
           checkboxes[2].parentNode.style.color = 'grey';
 
        }
@@ -242,25 +236,21 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
        if (boxClicked.name === 'js-frameworks') {
 
          checkboxes[3].disabled = false;
-         sConflict[2].style.display = 'none'
-         checkboxes[3].parentNode.style.color = 'black';
+         checkboxes[3].parentNode.style.color = 'black'; //set the color of the other checkbox's parent's content with the same time of the event to black
 
      } else if (boxClicked.name === 'express') {
 
         checkboxes[1].disabled = false;
-        sConflict[0].style.display = 'none'
         checkboxes[1].parentNode.style.color = 'black';
 
      }else if (boxClicked.name === 'js-libs') {
 
         checkboxes[4].disabled = false;
-        sConflict[3].style.display = 'none'
         checkboxes[4].parentNode.style.color = 'black';
 
      }else if (boxClicked.name === 'node') {
 
         checkboxes[2].disabled = false;
-        sConflict[1].style.display = 'none'
         checkboxes[2].parentNode.style.color = 'black';
 
      }
