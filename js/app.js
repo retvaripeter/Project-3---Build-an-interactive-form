@@ -20,6 +20,8 @@ const checkBoxesParent = document.querySelector('.activities');
 
 const sConflict = document.querySelectorAll(".sconflict");
 
+const totalElement = document.querySelector('.total');
+
 let eventBusket = 0;
 
 
@@ -64,6 +66,30 @@ function selectTheme () {
   dynamicOptionSelect[0].style.display = ""; //set the first select them to show
 
   dynamicOptionSelect[0].setAttribute("selected", '');//set the first select them to show
+
+}
+// Function for hide elements
+
+function hideElement (element) {
+
+element.style.display = 'none';
+
+}
+//Function for fading out the elements
+
+//basically it also use simple setinterval(.05 sec), but the function is decreasing the opacity of the element if op <= 0.1
+function fadeOut(element) {
+    var op = 1;  // set opacity to 100%
+    var timer = setInterval(function () { //set interval and create a function as a first argument
+        if (op <= 0.1){ //check if the op is smaller or equal than 0.1
+            clearInterval(timer); //if yes, the code stop the interval
+            element.style.display = 'none'; //hide the element too
+        }
+        element.style.opacity = op; // if the op is greater then 0.1 it will decrease the op with 0.1
+        op -= 0.1;
+    }, 50); //finish the interval after 0.05
+
+
 
 }
 
@@ -196,6 +222,9 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
        let boxText = boxClicked.parentNode.textContent;
        let split = boxText.split('$',2);
        eventBusket+=parseInt(split[1]);
+       totalElement.textContent = "TOTAL: " + eventBusket + " $";
+       totalElement.style.opacity = 1;
+       totalElement.style.display = 'block';
 
 
 
@@ -230,6 +259,15 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
      let boxTextUnchecked = boxClicked.parentNode.textContent;
      let splitUnchecked = boxTextUnchecked.split('$',2);
      eventBusket-=parseInt(splitUnchecked[1]);
+     totalElement.textContent = "TOTAL: " + eventBusket + " $";
+     totalElement.style.display = 'block';
+     if (eventBusket === 0){
+
+       fadeOut(totalElement);
+
+     }
+
+
 
   }
 
