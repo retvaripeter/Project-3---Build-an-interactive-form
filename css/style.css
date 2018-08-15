@@ -149,56 +149,6 @@ button:hover {
   clear: both;
 }
 
-.sconflict {
-
-  margin: left;
-  width: 78%;
-  border: 3px solid rgba(65, 6, 20,.3);
-  background-color: rgba(93, 2, 43,.7);
-  color: white;
-  font-size: .75em;
-  text-align: center;
-  padding: 7px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  display: none;
-
-}
-
-.sconflict:hover {
-
-  margin: left;
-  width: 78%;
-  border: 3px solid rgba(65, 6, 20,.2);
-  background-color: rgba(93, 2, 43,.3);
-  color: black;
-  font-size: .75em;
-  text-align: center;
-  padding: 7px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  display: none;
-}
-
-.total {
-
-  margin: left;
-  width: 35%;
-  border: 1px solid rgb(255, 254, 254, .5);
-  background-color: rgba(6, 42, 54,.9);
-  color: white;
-  font-size: .9em;
-  font-weight: bold;
-  text-align: center;
-  padding: 14px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  display: none;
-
-}
 /* =================================
   Media Queries
 ==================================== */
