@@ -14,6 +14,16 @@ const colorWithoutHeart = document.querySelectorAll("#color option:nth-child(-n+
 
 const colorWithHeart = document.querySelectorAll("#color option:nth-child(n+4)");
 
+const checkboxes = document.querySelectorAll('.activities input');
+
+const checkBoxesParent = document.querySelector('.activities');
+
+const sConflict = document.querySelectorAll(".sconflict");
+
+let eventBusket = 0;
+
+
+
 // ---------------------------------------- FUNCTIONS ---------------------------------------- //
 
 //COLOR heart or not heart
@@ -145,10 +155,88 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
 
 });
 
-
-
-
 // ---------------------------------------- Register for Activities section ---------------------------------------- //
+
+  // 1) Competing activities
+    // 1.1) Disable the checkbox when user click on a workshop with competing time
+    checkBoxesParent.addEventListener('change', (event) =>{
+
+      const boxClicked = event.target;
+
+      //there will be 2 main branch: 1)checkbox was unchecke before the click or 2) checked
+
+     // 1) Checkbox was uncheck before the clicks
+
+     if (boxClicked.checked === true) { //if the user make the checkbox clicked/checked
+
+         if (boxClicked.name === 'js-frameworks') {
+
+           checkboxes[3].disabled = true;
+           sConflict[2].style.display = 'block'
+
+       } else if (boxClicked.name === 'express') {
+
+          checkboxes[1].disabled = true;
+          sConflict[0].style.display = 'block'
+
+       }else if (boxClicked.name === 'js-libs') {
+
+          checkboxes[4].disabled = true;
+          sConflict[3].style.display = 'block'
+
+       }else if (boxClicked.name === 'node') {
+
+          checkboxes[2].disabled = true;
+          sConflict[1].style.display = 'block'
+
+       }
+
+       // add the proper 100$ to the variable eventBusket
+
+       let boxText = boxClicked.parentNode.textContent;
+       let split = boxText.split('$',2);
+       eventBusket+=parseInt(split[1]);
+
+
+
+    }
+
+   // 2) Checkbox was checked before the user boxClicked
+
+   if (boxClicked.checked === false) { //if the user make the checkbox unchecked
+
+       if (boxClicked.name === 'js-frameworks') {
+
+         checkboxes[3].disabled = false;
+         sConflict[2].style.display = 'none'
+
+     } else if (boxClicked.name === 'express') {
+
+        checkboxes[1].disabled = false;
+        sConflict[0].style.display = 'none'
+
+     }else if (boxClicked.name === 'js-libs') {
+
+        checkboxes[4].disabled = false;
+        sConflict[3].style.display = 'none'
+
+     }else if (boxClicked.name === 'node') {
+
+        checkboxes[2].disabled = false;
+        sConflict[1].style.display = 'none'
+
+     }
+
+     let boxTextUnchecked = boxClicked.parentNode.textContent;
+     let splitUnchecked = boxTextUnchecked.split('$',2);
+     eventBusket-=parseInt(splitUnchecked[1]);
+
+  }
+
+    });
+
+
+    // 1.2) Visually indicate that the workshop in the competing time slot isn't available.
 
 // ---------------------------------------- FORM VALIDATION section ---------------------------------------- //
 
