@@ -184,21 +184,22 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
 // ---------------------------------------- Register for Activities section ---------------------------------------- //
 
   // 1) Competing activities
-    // 1.1) Disable the checkbox when user click on a workshop with competing time
-    checkBoxesParent.addEventListener('change', (event) =>{
+    // 1.1) Disable the checkbox when user clicks on a workshop with competing time
 
-      const boxClicked = event.target;
+    checkBoxesParent.addEventListener('change', (event) =>{ //set eventlistener to the parent of the checkbox
 
-      //there will be 2 main branch: 1)checkbox was unchecke before the click or 2) checked
+      const boxClicked = event.target; //create variable and set the value to event.target
 
-     // 1) Checkbox was uncheck before the clicks
+      //there will be 2 main branch: 1)checkbox was unchecked before the click or 2) checkbox wasn't unchecked before the useclick
 
-     if (boxClicked.checked === true) { //if the user make the checkbox clicked/checked
+     // 1) If the user clicks on an unchecked checkboxes and makes it checked
 
-         if (boxClicked.name === 'js-frameworks') {
+     if (boxClicked.checked === true) { //if the user makes the checkbox clicked/checked
 
-           checkboxes[3].disabled = true;
-           sConflict[2].style.display = 'block'
+         if (boxClicked.name === 'js-frameworks') { //if the user clicks on a checkbox with a name attribute: 'js-framworks'
+
+           checkboxes[3].disabled = true; //disable the other checkbox with the same time of the event
+           sConflict[2].style.display = 'block' //display a schedule-conflict message
 
        } else if (boxClicked.name === 'express') {
 
@@ -219,20 +220,20 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
 
        // add the proper 100$ to the variable eventBusket
 
-       let boxText = boxClicked.parentNode.textContent;
-       let split = boxText.split('$',2);
-       eventBusket+=parseInt(split[1]);
-       totalElement.textContent = "TOTAL: " + eventBusket + " $";
-       totalElement.style.opacity = 1;
-       totalElement.style.display = 'block';
-
-
+       let boxText = boxClicked.parentNode.textContent; //get the textcontent which belongs to the checkbox (its parent's content)
+       let split = boxText.split('$',2); //split the textcontent we just got to 2 parts: 1) before $ 2) after $
+       eventBusket+=parseInt(split[1]); //get the numbers after the $ sign
+       totalElement.textContent = "TOTAL: " + eventBusket + " $"; //add the number to the totalElement which is still hided
+       totalElement.style.opacity = 1; //set back the opacity of the totalElement
+       totalElement.style.display = 'block'; // finaly show the totalElement
 
     }
 
    // 2) Checkbox was checked before the user boxClicked
 
-   if (boxClicked.checked === false) { //if the user make the checkbox unchecked
+    //the process is the same like above except that here we hide the elements after user make the ckeckboxes unchecked
+
+   if (boxClicked.checked === false) {
 
        if (boxClicked.name === 'js-frameworks') {
 
@@ -255,6 +256,7 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
         sConflict[1].style.display = 'none'
 
      }
+//the process is the same like above except that here we fade the totalElement after the eventBusket is 0
 
      let boxTextUnchecked = boxClicked.parentNode.textContent;
      let splitUnchecked = boxTextUnchecked.split('$',2);
@@ -267,14 +269,10 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
 
      }
 
-
-
   }
 
     });
 
-
-    // 1.2) Visually indicate that the workshop in the competing time slot isn't available.
 
 // ---------------------------------------- FORM VALIDATION section ---------------------------------------- //
 
