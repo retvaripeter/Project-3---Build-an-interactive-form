@@ -18,7 +18,28 @@ const checkboxes = document.querySelectorAll('.activities input');
 
 const checkBoxesParent = document.querySelector('.activities');
 
-const totalElement = document.querySelector('.total');
+const totalParent = document.querySelector('.activities');
+
+const creditCard = document.querySelector('.credit-card');
+
+const payPal = creditCard.nextElementSibling;
+
+const Bitcoin = payPal.nextElementSibling;
+
+const selectPayment = document.querySelector('#payment');
+
+const registerButton = document.querySelector('button');
+
+const emailField=document.querySelector("#mail");
+
+const cCardNUmber = document.querySelector("#cc-num");
+
+const zipCode = document.querySelector("#zip");
+
+const cVV = document.querySelector("#cvv");
+
+
+
 
 let eventBusket = 0;
 
@@ -73,6 +94,14 @@ function hideElement (element) {
 element.style.display = 'none';
 
 }
+
+// Function for show elements
+
+function showElement (element) {
+
+element.style.display = 'block';
+
+}
 //Function for fading out the elements
 
 //basically it also use simple setinterval(.05 sec), but the function is decreasing the opacity of the element if op <= 0.1
@@ -87,8 +116,56 @@ function fadeOut(element) {
         op -= 0.1;
     }, 50); //finish the interval after 0.05
 
+}
+
+//Function checks that is there at least one checkbox unchecked
+
+function isOneChecked () {
+
+//loop through all checkboxes
+
+  let holdChecked = [];
+
+  for (let i = 0; i < checkboxes.length; i += 1) {
+
+    //create an array which will hold a checkbox if its attribute is isOneChecked
 
 
+    if (checkboxes[i].checked === true) {
+
+      holdChecked.push(checkboxes[i]);
+
+    }
+
+  }
+return holdChecked.length;
+}
+
+function ValidateEmail(mail) {
+
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail.value)){
+
+    return (true)
+  }
+    return (false)
+  }
+
+function ValidateCreditCard (){
+
+  //check if credit card is otherSelected
+
+  if(selectPayment.value = 'credit card'){
+
+    if(cCardNUmber.value.length > 12 && cCardNUmber.value.length < 17 && zipCode.value.length === 5 && cVV.value.length === 3 ){
+
+      return true;
+
+    } else {
+
+      return false;
+    }
+
+  }
 }
 
 // ---------------------------------------- Program starts ---------------------------------------- //
@@ -182,6 +259,13 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
 // ---------------------------------------- Register for Activities section ---------------------------------------- //
 
   // 1) Competing activities
+
+    // Create the totalElement and append it to the document
+
+    const totalElement = document.createElement("DIV");
+    totalElement.className = 'total';
+    totalParent.appendChild(totalElement);
+
     // 1.1) Disable the checkbox when user clicks on a workshop with competing time
 
     checkBoxesParent.addEventListener('change', (event) =>{ //set eventlistener to the parent of the checkbox
@@ -270,8 +354,90 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
   }
 
     });
+// ---------------------------------------- PAYMENT INFO section ---------------------------------------- //
 
+  //Hide all paymentinfo except creditcard
+
+  hideElement(payPal);
+  hideElement(Bitcoin);
+
+  //Credit card option is selected by default
+
+  selectPayment[1].setAttribute("selected", ''); //make creditcard the first showd element in dropdownmenu
+  selectPayment[0].removeAttribute("selected"); //remove the fist showd element be default (select payment method)
+  selectPayment[0].setAttribute("disabled", ''); //disable the select payment method option
+
+  //Add eventlistener to the paymentselect dropdownmenu
+
+  selectPayment.addEventListener('change', () => {
+
+        if (selectPayment.value ==='credit card') {
+
+          hideElement(payPal);
+          hideElement(Bitcoin);
+          showElement(creditCard);
+
+      } else if (selectPayment.value ==='paypal') {
+
+          hideElement(creditCard);
+          hideElement(Bitcoin);
+          showElement(payPal);
+
+      }   else if (selectPayment.value ==='bitcoin') {
+
+          hideElement(creditCard);
+          hideElement(payPal);
+          showElement(Bitcoin);
+
+      }
+
+  });
 
 // ---------------------------------------- FORM VALIDATION section ---------------------------------------- //
+
+  // If any of the main validation errors exist, prevent the user from submitting the form.
+
+    // Validation function for all required empty field
+
+    function validateForm()  {
+
+      //Disable the register button
+
+      registerButton.setAttribute('disabled','');
+
+      //Define the requirements
+
+      const nameField=document.querySelector("#name").value;
+      const checkboxValidation = isOneChecked(); //call the isOneChecked function
+      const checkEmail = ValidateEmail(emailField);
+      const checkCreditCard = ValidateCreditCard();
+
+
+      if (nameField==="" || checkEmail===false || checkboxValidation===0 || ValidateCreditCard===false) {
+          alert("Please Fill All Required Field");
+          registerButton.removeAttribute("disabled");
+          return false;
+
+      }
+      else {
+
+        registerButton.removeAttribute("disabled");
+      }
+  }
+
+      // Eventlistener to register registerButton
+
+      registerButton.addEventListener('click', () => {
+
+        validateForm();
+
+      });
+
+
+
+
+
+
+
 
 // ---------------------------------------- FORM VALIDATION messages ---------------------------------------- //
