@@ -15,3 +15,117 @@
   display: none;
 
 }
+
+h1 {
+
+font-size: 4em;
+opacity: .8;
+margin-top: 10px;
+text-shadow: -2px 2px #623939;
+}
+
+span {
+
+font-size: 1.5em;
+font-style: italic;
+color: darkslategrey;
+
+
+}
+
+.vm {
+
+font-size: 0.95em;
+font-style: bold;
+margin-top: 5px;
+margin-bottom: 15px;
+color: gold;
+text-shadow: -.5px .5px grey;
+
+}
+
+
+body {
+  background: url("..//budapest.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+form {
+
+  background-color: rgba(0, 7, 8,.5);
+
+
+}
+
+fieldset legend {
+
+  border-color:  darkslategrey;
+
+
+}
+
+fieldset  {
+
+color:#EBB35F;
+color: rgba(157, 150, 53, 0.92);
+text-shadow: -.15px .15px white;
+
+
+
+}
+
+h1:hover {
+
+transform: scale(1.02);
+}
+
+label {
+
+color: rgb(224, 224, 224);
+
+}
+
+input {
+
+  background-color: rgb(213, 204, 174);
+  border-color: dimgrey;
+
+
+}
+
+input:focus {
+	background: white;
+	border-color: rgba(140, 114, 18, 0.92);
+	transition: border-color .4s, background-color 1s;
+  border-radius: 5px;
+}
+
+
+form,
+button,
+#name,
+#mail,
+#cc-num,
+#zip,
+#cvv {
+
+    border-radius: 5px;
+
+}
+
+button {
+
+  margin-left: 30%;
+  width: 40%;
+  background-color: rgba(16, 5, 24, 0.9);
+
+}
+
+button:hover{
+
+  background-color:rgba(0, 0, 0, 0.8);
+  
+}

@@ -30,6 +30,8 @@ const selectPayment = document.querySelector('#payment');
 
 const registerButton = document.querySelector('button');
 
+const nameInput = document.querySelector("#name");
+
 const emailField=document.querySelector("#mail");
 
 const cCardNUmber = document.querySelector("#cc-num");
@@ -38,6 +40,17 @@ const zipCode = document.querySelector("#zip");
 
 const cVV = document.querySelector("#cvv");
 
+const labelName = document.querySelector('fieldset label[for="name"]');
+
+const labelEmail = document.querySelector('fieldset label[for="mail"]');
+
+const labelActivties = document.querySelector(".activities legend");
+
+const labelPaymentinfo = document.querySelector("#payment");
+
+const allInput = document.querySelectorAll("input");
+
+const form = document.querySelector('form');
 
 
 
@@ -70,23 +83,7 @@ function colorShow (withOrwithout) {
   dynamicOptionSelect[0].style.display = "none";
 
 }
-// Function: Make Select Theme option the "only one"
-function selectTheme () {
 
-  colorHide(colorWithoutHeart);//hide all without hearts in color menu
-  colorHide(colorWithHeart);//hide all  hearts in color menu
-
-//remove the selected attrubute on all color menu options
-  for (let i= 0; i < dynamicOptionSelect.length; i+=1){
-
-        dynamicOptionSelect[i].removeAttribute("selected"); //the dynamicOptionSelect varible will be generated later, when other DOM elements will be added with JS
-  }
-
-  dynamicOptionSelect[0].style.display = ""; //set the first select them to show
-
-  dynamicOptionSelect[0].setAttribute("selected", '');//set the first select them to show
-
-}
 // Function for hide elements
 
 function hideElement (element) {
@@ -168,6 +165,32 @@ function ValidateCreditCard (){
   }
 }
 
+function buildElement (elementafter,text,classname,id) {
+
+  const element = document.createElement('DIV');
+  element.textContent = text;
+  element.className = classname;
+  element.id = id;
+  elementafter.parentNode.insertBefore(element, elementafter.nextElementSibling);
+
+}
+function removeAllVm () {
+
+  const element = document.querySelectorAll(".vm");
+
+  for (let i = 0; i < element.length; i+=1) {
+
+  element[i].parentNode.removeChild(element[i]);
+
+  }
+
+  for (let i = 0; i < allInput.length; i+=1) {
+
+  allInput[i].style.border= '2px solid #c1deeb';
+
+  }
+
+}
 // ---------------------------------------- Program starts ---------------------------------------- //
 
 //set focus on the name fieldset
@@ -232,27 +255,26 @@ dynamicOptionSelect[6].textContent = "Dim Grey";
 
 // 1.2) Make Select Theme option the "only one"
 
-    selectTheme();
-
+    const colorLabel = document.querySelector('#colors-js-puns');
+    colorLabel.style.display = 'none';
+    designSelected[0].setAttribute("disabled", '');
 // 1.3) Add addEventListener to Design menu
 
 designSelected.addEventListener('change', () => {  //set the event listener to the select menu
 
   if (designSelected.value ==='js puns') { //if the design select menu value = 'js puns' - (means that without heart is selected)
 
+    colorLabel.style.display = 'block';
     colorHide(colorWithHeart);//hide all hearts in color menu
     colorShow(colorWithoutHeart);//show all without hearts in color menu
 
     } else if (designSelected.value ==='heart js'){ //if the design select menu value = 'heart js' - (means that  heart is selected)
 
+    colorLabel.style.display = 'block';
     colorHide(colorWithoutHeart);//hide all without hearts in color menu
     colorShow(colorWithHeart);//show all  hearts in color menu
 
-  } else if (designSelected.value ==='Select Theme'){ //if the design select menu value = 'heart js' - (means that  heart is selected)
-
-    selectTheme();
-
-    }
+  }
 
 });
 
@@ -320,22 +342,22 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
        if (boxClicked.name === 'js-frameworks') {
 
          checkboxes[3].disabled = false;
-         checkboxes[3].parentNode.style.color = 'black'; //set the color of the other checkbox's parent's content with the same time of the event to black
+         checkboxes[3].parentNode.style.color = 'white'; //set the color of the other checkbox's parent's content with the same time of the event to black
 
      } else if (boxClicked.name === 'express') {
 
         checkboxes[1].disabled = false;
-        checkboxes[1].parentNode.style.color = 'black';
+        checkboxes[1].parentNode.style.color = 'white';
 
      }else if (boxClicked.name === 'js-libs') {
 
         checkboxes[4].disabled = false;
-        checkboxes[4].parentNode.style.color = 'black';
+        checkboxes[4].parentNode.style.color = 'white';
 
      }else if (boxClicked.name === 'node') {
 
         checkboxes[2].disabled = false;
-        checkboxes[2].parentNode.style.color = 'black';
+        checkboxes[2].parentNode.style.color = 'white';
 
      }
 //the process is the same like above except that here we fade the totalElement after the eventBusket is 0
@@ -393,36 +415,220 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
 
   });
 
+// ---------------------------------------- FORM VALIDATION messages ---------------------------------------- //
+
+function validateMessages () {
+
+  if (nameInput.value === '') {
+
+    nameInput.style.borderColor = 'red';
+    nameInput.style.borderStyle = 'dotted';
+    buildElement(labelName,"Please type your name:", 'vm','nameinput');
+
+  }
+
+   if (ValidateEmail(emailField)=== false) {
+
+    emailField.style.borderColor = 'red';
+    emailField.style.borderStyle = 'dotted';
+    buildElement(labelEmail,"Please type a valid email address:", 'vm','emailfield');
+
+  }
+
+    if (isOneChecked()===0) {
+
+    buildElement(labelActivties,"Please select at least 1 activity from the events:", 'vm','isone');
+
+   }
+
+   if(cVV.value.length !== 3) {
+
+    cVV.style.borderColor = 'red';
+    cVV.style.borderStyle = 'dotted';
+    buildElement(labelPaymentinfo,"CVV field: please provide a 3 digit number:", 'vm','iscvv');
+
+  }
+
+  if(zipCode.value.length !== 5) {
+
+   zipCode.style.borderColor = 'red';
+   zipCode.style.borderStyle = 'dotted';
+   buildElement(labelPaymentinfo,"Zipcode field: Please provide a 5 digit number:", 'vm','iszip');
+ }
+
+ if(cCardNUmber.value.length === 0) {
+
+  cCardNUmber.style.borderColor = 'red';
+  cCardNUmber.style.borderStyle = 'dotted';
+  buildElement(labelPaymentinfo,"CCNumber field: Please enter a credit card number:", 'vm','iscard');
+
+}
+
+ else if(cCardNUmber.value.length < 13 && cCardNUmber.value.length !== 0 ) {
+
+  cCardNUmber.style.borderColor = 'red';
+  cCardNUmber.style.borderStyle = 'dotted';
+  buildElement(labelPaymentinfo,"CCNumber field: Please provide at least 13 and maximum 16 digit number:", 'vm','iscard');
+
+}
+
+else if(cCardNUmber.value.length < 13 || cCardNUmber.value.length > 16) {
+
+ cCardNUmber.style.borderColor = 'red';
+ cCardNUmber.style.borderStyle = 'dotted';
+ buildElement(labelPaymentinfo,"CCNumber field: Please provide at least 13 and maximum 16 digit number:", 'vm','iscard');
+
+}
+
+}
+
+function validateGreen () {
+
+  if (nameInput.value !== '') {
+
+    nameInput.style.borderColor = 'green';
+    nameInput.style.borderStyle = 'solid';
+
+    if(document.getElementById("nameinput")!== '' && document.getElementById("nameinput")!== null){
+
+      const removebyID = document.getElementById("nameinput");
+      const parent = removebyID.parentNode;
+      parent.removeChild(removebyID);
+    }
+
+
+
+  }
+
+   if (ValidateEmail(emailField)=== true) {
+
+     emailField.style.borderColor = 'green';
+     emailField.style.borderStyle = 'solid';
+
+     if(document.getElementById("emailfield")!== '' && document.getElementById("emailfield")!== null){
+
+       const removebyID = document.getElementById("emailfield");
+       const parent = removebyID.parentNode;
+       parent.removeChild(removebyID);
+
+     }
+
+
+
+  }
+
+
+   if(cVV.value.length === 3) {
+
+     if(document.getElementById("iscvv")!== '' && document.getElementById("iscvv")!== null){
+
+    cVV.style.borderColor = 'green';
+    cVV.style.borderStyle = 'solid';
+    const removebyID = document.getElementById("iscvv");
+    const parent = removebyID.parentNode;
+    parent.removeChild(removebyID);
+  }
+
+  }
+
+  if(zipCode.value.length === 5) {
+
+     if(document.getElementById("iszip")!== '' && document.getElementById("iszip")!== null){
+
+     zipCode.style.borderColor = 'green';
+     zipCode.style.borderStyle = 'solid';
+     const removebyID = document.getElementById("iszip");
+     const parent = removebyID.parentNode;
+     parent.removeChild(removebyID);
+    }
+
+  }
+
+  if(cCardNUmber.value.length > 12 && cCardNUmber.value.length < 17) {
+
+    if(document.getElementById("iscard")!== '' && document.getElementById("iscard")!== null) {
+
+    cCardNUmber.style.borderColor = 'green';
+    cCardNUmber.style.borderStyle = 'solid';
+    const removebyID = document.getElementById("iscard");
+    const parent = removebyID.parentNode;
+    parent.removeChild(removebyID);
+
+    }
+
+
+  }
+
+
+}
+
+function removeVM () {
+
+  nameInput.style.border= '2px solid #c1deeb';
+
+  removeAllVm();
+
+  // buildElement(labelName,"Please type your name:", 'vm');
+
+}
+
+
 // ---------------------------------------- FORM VALIDATION section ---------------------------------------- //
 
   // If any of the main validation errors exist, prevent the user from submitting the form.
 
     // Validation function for all required empty field
 
-    function validateForm()  {
+      //Disable the register button by setting it only clickable button
 
-      //Disable the register button
+      function validateForm()  {
 
-      registerButton.setAttribute('disabled','');
+      if (registerButton.type = 'button') {
+
+        removeAllVm();
+      }
+
+      registerButton.type = 'button';
 
       //Define the requirements
 
-      const nameField=document.querySelector("#name").value;
-      const checkboxValidation = isOneChecked(); //call the isOneChecked function
+      const nameField= nameInput.value;
+      const checkboxValidation = isOneChecked();
       const checkEmail = ValidateEmail(emailField);
-      const checkCreditCard = ValidateCreditCard();
 
 
-      if (nameField==="" || checkEmail===false || checkboxValidation===0 || ValidateCreditCard===false) {
-          alert("Please Fill All Required Field");
-          registerButton.removeAttribute("disabled");
-          return false;
+      //if ccard is selected
+        if (selectPayment.value ==='credit card') {
 
-      }
-      else {
+          const checkCreditCard = ValidateCreditCard();
 
-        registerButton.removeAttribute("disabled");
-      }
+          if (nameField==="" || checkEmail===false || checkboxValidation===0 || checkCreditCard===false) {
+              alert("Please Fill All Required Field");
+              validateMessages();
+              return false;
+
+          }
+          else {
+
+            registerButton.type = 'submit';
+          }
+
+
+        } else if (nameField==="" || checkEmail===false || checkboxValidation===0) {
+              alert("Please Fill All Required Field");
+              validateMessages();
+              return false;
+
+          }
+          else {
+
+            registerButton.type = 'submit';
+          }
+
+
+
+
+
   }
 
       // Eventlistener to register registerButton
@@ -431,13 +637,47 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
 
         validateForm();
 
-      });
+  });
+
+  form.addEventListener('keyup', () => {
+
+    validateGreen();
+
+});
 
 
 
+totalParent.addEventListener('change', () => {
 
+  if(document.getElementById("isone")!== '' && document.getElementById("isone")!== null){
 
+    let checkremovebyID = document.getElementById("isone");
+    let checkparent = checkremovebyID.parentNode;
 
+    checkparent.removeChild(checkremovebyID);
 
+  }
 
-// ---------------------------------------- FORM VALIDATION messages ---------------------------------------- //
+});
+
+  emailField.addEventListener('keyup', () => {
+
+    if(document.getElementById("emailfield")== null){
+
+        buildElement(labelEmail,"Please type a valid email address:", 'vm','emailfield');
+      }
+
+  if (ValidateEmail(emailField)=== false) {
+
+   emailField.style.borderColor = 'red';
+   emailField.style.borderStyle = 'dotted';
+
+ }
+
+ else {
+
+   validateGreen();
+
+ }
+
+});
