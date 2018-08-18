@@ -1,6 +1,6 @@
 // ---------------------------------------- VARIABLES ---------------------------------------- //
 
-//DOM elements
+//Select all DOM elements and assign it to a variable
 
 const otherInputField = document.getElementById("other-title");
 
@@ -54,7 +54,7 @@ const form = document.querySelector('form');
 
 
 
-let eventBusket = 0;
+let eventBusket = 0; //this variable holds the added event's cost by the user
 
 
 
@@ -65,20 +65,24 @@ let eventBusket = 0;
 // Function: Hide the color menu options
 function colorHide (withOrwithout) {
 
+//hide the element:
+
   for (let i= 0; i < withOrwithout.length; i+=1){
 
         withOrwithout[i].style.display = "none";
   }
 
 }
-// Function: Shiw the color menu options
+// Function: Show the color menu options
 function colorShow (withOrwithout) {
+
+//show the element
 
   for (let i= 0; i < withOrwithout.length; i+=1){
 
         withOrwithout[i].style.display = "";
   }
-
+//make the first child selected from the dropdownmenu with the attribute: 'selected'
   withOrwithout[0].setAttribute("selected", '');
   dynamicOptionSelect[0].style.display = "none";
 
@@ -121,12 +125,9 @@ function isOneChecked () {
 
 //loop through all checkboxes
 
-  let holdChecked = [];
+  let holdChecked = []; //create an array which will hold a checkbox if its attribute is isOneChecked
 
   for (let i = 0; i < checkboxes.length; i += 1) {
-
-    //create an array which will hold a checkbox if its attribute is isOneChecked
-
 
     if (checkboxes[i].checked === true) {
 
@@ -135,10 +136,24 @@ function isOneChecked () {
     }
 
   }
-return holdChecked.length;
+return holdChecked.length; // if the length is not 0 it means that the user checked at least 1
 }
 
 function ValidateEmail(mail) {
+
+  /*
+An email is a string (a subset of ASCII characters) separated into two parts by @ symbol:
+1) "personal_info"
+2)  domain, that is personal_info@domain.
+
+The length of the personal_info part may be up to 64 characters long and domain name may be up to 253 characters.
+The personal_info part contains the following ASCII characters.
+
+Uppercase (A-Z) and lowercase (a-z) English letters.
+Digits (0-9).
+Characters ! # $ % & ' * + - / = ? ^ _ ` { | } ~
+
+  */
 
   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail.value)){
 
@@ -153,14 +168,19 @@ function ValidateCreditCard (){
 
   if(selectPayment.value = 'credit card'){
 
-    if(cCardNUmber.value.length > 12 && cCardNUmber.value.length < 17 && zipCode.value.length === 5 && cVV.value.length === 3 ){
+      if(isNaN(cCardNUmber.value) || isNaN(zipCode.value) || isNaN(cVV.value)){
 
-      return true;
+        return 1;
+      }
 
-    } else {
+      else if(cCardNUmber.value.length > 12 && cCardNUmber.value.length < 17 && zipCode.value.length === 5 && cVV.value.length === 3 ){
 
-      return false;
-    }
+        return true;
+
+      } else {
+
+        return false;
+      }
 
   }
 }
@@ -199,9 +219,9 @@ document.getElementById("name").focus();
 
 // ---------------------------------------- Job role section ---------------------------------------- //
 
-// 1) Add the "Other" job role input directly into the HTML
+// 1.1) Add the "Other" job role input directly into the HTML
 
-// 1.2)  Give the Other inputfield an id of “other-title,” and add the placeholder text of "Your Job Role".
+// 1.2)  Give the Other inputfield an id of “other-title,” and add the placeholder text "Your Job Role".
 
 // 2) Include a text field that will be revealed when the "Other" option is selected from the "Job Role" drop down menu.
 
@@ -253,12 +273,13 @@ dynamicOptionSelect[4].textContent = "Tomato";
 dynamicOptionSelect[5].textContent = "Steel Blue";
 dynamicOptionSelect[6].textContent = "Dim Grey";
 
-// 1.2) Make Select Theme option the "only one"
+// 1.3) Make Select Theme option disabled and the Color Label hide until one theme is selected
 
     const colorLabel = document.querySelector('#colors-js-puns');
     colorLabel.style.display = 'none';
     designSelected[0].setAttribute("disabled", '');
-// 1.3) Add addEventListener to Design menu
+
+// 1.3.1) Add addEventListener to Design menu
 
 designSelected.addEventListener('change', () => {  //set the event listener to the select menu
 
@@ -389,7 +410,7 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
   selectPayment[0].removeAttribute("selected"); //remove the fist showd element be default (select payment method)
   selectPayment[0].setAttribute("disabled", ''); //disable the select payment method option
 
-  //Add eventlistener to the paymentselect dropdownmenu
+  //Add eventlistener to the paymentselect dropdownmenu, we can clearly see the actions from the functions name
 
   selectPayment.addEventListener('change', () => {
 
@@ -417,16 +438,22 @@ designSelected.addEventListener('change', () => {  //set the event listener to t
 
 // ---------------------------------------- FORM VALIDATION messages ---------------------------------------- //
 
+// this function use the buildElement function, which holds 3 arguments: textcontent, classname, idea
+// we use ID to easily locate the element we created later on the project (e.g.: if we need to remove it)
+// we use className to design it with CSS
 function validateMessages () {
 
-  if (nameInput.value === '') {
+  //it goes through basically every element that we have to validate
+
+  if (nameInput.value === '') { //check is nameInputfield is empty or not, if yes it will make the followings:
 
     nameInput.style.borderColor = 'red';
     nameInput.style.borderStyle = 'dotted';
-    buildElement(labelName,"Please type your name:", 'vm','nameinput');
+    buildElement(labelName,"Please type your name:", 'vm','nameinput'); //it will also add a validate message to the proper section
 
   }
 
+// it works the same for the other inputfields too
    if (ValidateEmail(emailField)=== false) {
 
     emailField.style.borderColor = 'red';
@@ -435,7 +462,7 @@ function validateMessages () {
 
   }
 
-    if (isOneChecked()===0) {
+    if (isOneChecked()===0) { // here we use the isOneChecked function to check the the user clicked at least one checkbox
 
     buildElement(labelActivties,"Please select at least 1 activity from the events:", 'vm','isone');
 
@@ -455,6 +482,10 @@ function validateMessages () {
    zipCode.style.borderStyle = 'dotted';
    buildElement(labelPaymentinfo,"Zipcode field: Please provide a 5 digit number:", 'vm','iszip');
  }
+
+// here we have to separate the cCardNUmber validation into 3 branches. Because 0 represents when the user didn't write any numbers
+// 1 represents the the failure if the user type fewer number than 13
+// 2 represents when the user types more than 16 numbers
 
  if(cCardNUmber.value.length === 0) {
 
@@ -482,21 +513,27 @@ else if(cCardNUmber.value.length < 13 || cCardNUmber.value.length > 16) {
 
 }
 
+//We also need another process when the user fill the form/inputs properly. We need to notify her/him
+
 function validateGreen () {
 
-  if (nameInput.value !== '') {
+  if (nameInput.value !== '') { //if the nameinput is properly field out (not empty :) ) we make the input border green from red
 
     nameInput.style.borderColor = 'green';
     nameInput.style.borderStyle = 'solid';
 
-    if(document.getElementById("nameinput")!== '' && document.getElementById("nameinput")!== null){
+    //this long if means that we need to check if the element(validete error message for nameinput) is already exist or not
+    // to avoid failure when trying to remove an element which doesn't exist
 
+    if(document.getElementById("nameinput")!== '' && document.getElementById("nameinput")!== null){ //we check if nameinput is exist, if yes we can delete it
+
+//we delete the element since if it's exist
       const removebyID = document.getElementById("nameinput");
       const parent = removebyID.parentNode;
       parent.removeChild(removebyID);
     }
 
-
+//the method is the same for all the other elements
 
   }
 
@@ -512,8 +549,6 @@ function validateGreen () {
        parent.removeChild(removebyID);
 
      }
-
-
 
   }
 
@@ -556,19 +591,7 @@ function validateGreen () {
 
     }
 
-
   }
-
-
-}
-
-function removeVM () {
-
-  nameInput.style.border= '2px solid #c1deeb';
-
-  removeAllVm();
-
-  // buildElement(labelName,"Please type your name:", 'vm');
 
 }
 
@@ -583,9 +606,9 @@ function removeVM () {
 
       function validateForm()  {
 
-      if (registerButton.type = 'button') {
+      if (registerButton.type = 'button') { //if the button type set to button will not refresh the page and send the data to the server
 
-        removeAllVm();
+        removeAllVm(); //removes all validateMessages
       }
 
       registerButton.type = 'button';
@@ -602,17 +625,29 @@ function removeVM () {
 
           const checkCreditCard = ValidateCreditCard();
 
-          if (nameField==="" || checkEmail===false || checkboxValidation===0 || checkCreditCard===false) {
-              alert("Please Fill All Required Field");
-              validateMessages();
+          if (checkCreditCard===1){ // if the validecreditcard return 1, means that the user didn't write number
+
+            alert("You wrote a letter instead of number. Please provide only numbers!");
+
+          }
+          // it will check all inputfield and if one of the are not fits the requiremt the whole if will go to false
+            //if nameinput is empty
+            //if email is not validete
+            //if no checkboxes checked
+            //if the paymentfield is not properly filled
+
+          else if (nameField==="" || checkEmail===false || checkboxValidation===0 || checkCreditCard===false) {
+              alert("Please Fill All Required Field"); //alert the user
+              validateMessages(); // write the validetemessages to alert more properly the user
               return false;
 
           }
-          else {
+          else { // if the requirements are ok we set the buttontype to submit and send the data from the user
 
             registerButton.type = 'submit';
           }
 
+          // this section is about if not creditcard is selected from the payment options
 
         } else if (nameField==="" || checkEmail===false || checkboxValidation===0) {
               alert("Please Fill All Required Field");
@@ -625,11 +660,8 @@ function removeVM () {
             registerButton.type = 'submit';
           }
 
-
-
-
-
   }
+      // we activate the function we wrote above:
 
       // Eventlistener to register registerButton
 
@@ -638,6 +670,7 @@ function removeVM () {
         validateForm();
 
   });
+      //notify the user while he/her is typing with keyup event and validegreen function:
 
   form.addEventListener('keyup', () => {
 
@@ -645,9 +678,11 @@ function removeVM () {
 
 });
 
-
+// We have to use different eventlistener to the checkboxes with event: change
 
 totalParent.addEventListener('change', () => {
+
+// check if the validate messages is alreafy exist or not, if yes (element is not null or ''), then remove it
 
   if(document.getElementById("isone")!== '' && document.getElementById("isone")!== null){
 
@@ -660,12 +695,18 @@ totalParent.addEventListener('change', () => {
 
 });
 
+//this is for the REALTIME email validation
+
   emailField.addEventListener('keyup', () => {
+
+    //if the emailfield valide message hasn't created, create it
 
     if(document.getElementById("emailfield")== null){
 
         buildElement(labelEmail,"Please type a valid email address:", 'vm','emailfield');
       }
+
+      //if the the email didn't fill properly bye the user make the border red
 
   if (ValidateEmail(emailField)=== false) {
 
@@ -674,7 +715,7 @@ totalParent.addEventListener('change', () => {
 
  }
 
- else {
+ else { //if the the emaifield filled  properly bye the user make the border green
 
    validateGreen();
 
